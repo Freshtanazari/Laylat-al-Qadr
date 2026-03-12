@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ليلة القدر — Night of Power</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #11111a;
+    --surface2: #181825;
+    --gold: #c9a84c;
+    --gold-light: #e8c96e;
+    --gold-dim: #7a5e28;
+    --cream: #f0e6cc;
+    --cream-dim: #8a7a5a;
+    --green: #2d6a4f;
+    --green-light: #52b788;
+    --text: #e8dcc8;
+    --text-dim: #6b5f47;
+    --border: rgba(201,168,76,0.15);
+    --border-bright: rgba(201,168,76,0.4);
+    --glow: rgba(201,168,76,0.08);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* starfield */
+  .stars {
+    position: fixed; inset:0; pointer-events:none; z-index:0;
+    background:
+      radial-gradient(1px 1px at 10% 15%, rgba(255,255,220,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 40%, rgba(255,255,220,0.4) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 40% 8%, rgba(255,255,220,0.7) 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 22%, rgba(255,255,220,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 5%, rgba(255,255,220,0.6) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 82% 30%, rgba(255,255,220,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 92% 12%, rgba(255,255,220,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 15% 65%, rgba(255,255,220,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 35% 75%, rgba(255,255,220,0.4) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 60% 55%, rgba(255,255,220,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 78% 70%, rgba(255,255,220,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 85%, rgba(255,255,220,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 5% 90%, rgba(255,255,220,0.3) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 48% 88%, rgba(255,255,220,0.4) 0%, transparent 100%);
+  }
+
+  .moon {
+    position: fixed;
+    top: 40px; right: 80px;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #f5e6b0, #c9a84c 60%, #7a5e28);
+    box-shadow: 0 0 40px rgba(201,168,76,0.3), 0 0 80px rgba(201,168,76,0.1);
+    pointer-events: none; z-index:0;
+    animation: moonGlow 4s ease-in-out infinite alternate;
+  }
+  @keyframes moonGlow {
+    from { box-shadow: 0 0 40px rgba(201,168,76,0.3), 0 0 80px rgba(201,168,76,0.1); }
+    to   { box-shadow: 0 0 60px rgba(201,168,76,0.5), 0 0 120px rgba(201,168,76,0.2); }
+  }
+
+  .container {
+    position: relative; z-index:1;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    margin-bottom: 48px;
+    animation: fadeDown 0.8s ease both;
+  }
+  .arabic-title {
+    font-family: 'Amiri', serif;
+    font-size: clamp(2.8rem, 8vw, 4.5rem);
+    color: var(--gold-light);
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+    text-shadow: 0 0 40px rgba(201,168,76,0.4);
+  }
+  .english-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--cream-dim);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+  .divider {
+    width: 120px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 20px auto;
+  }
+  .hadith {
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--cream-dim);
+    max-width: 420px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* Section titles */
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-title::after {
+    content:''; flex:1; height:1px;
+    background: linear-gradient(90deg, var(--border-bright), transparent);
+  }
+
+  /* Prayer Cards */
+  .prayers-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+    animation: fadeUp 0.8s ease 0.2s both;
+  }
+  .prayers-grid .fajr-card {
+    grid-column: span 2;
+  }
+
+  .prayer-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .prayer-card::before {
+    content:'';
+    position:absolute; inset:0;
+    background: var(--glow);
+    opacity:0;
+    transition: opacity 0.25s;
+  }
+  .prayer-card:hover { border-color: var(--border-bright); transform: translateY(-1px); }
+  .prayer-card:hover::before { opacity:1; }
+  .prayer-card.completed {
+    border-color: rgba(82,183,136,0.4);
+    background: linear-gradient(135deg, var(--surface), rgba(45,106,79,0.2));
+  }
+  .prayer-card.completed::before { opacity:1; background: rgba(82,183,136,0.05); }
+
+  .prayer-icon {
+    font-size: 1.8rem;
+    width: 44px; text-align: center;
+    flex-shrink:0;
+  }
+  .prayer-info { flex:1; }
+  .prayer-name-ar {
+    font-family: 'Amiri', serif;
+    font-size: 1.3rem;
+    color: var(--gold-light);
+    line-height:1;
+  }
+  .prayer-name-en {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    margin-top: 2px;
+  }
+  .prayer-count-display {
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: var(--cream-dim);
+    min-width: 40px;
+    text-align:right;
+    font-variant-numeric: tabular-nums;
+    transition: color 0.3s;
+  }
+  .prayer-card.completed .prayer-count-display { color: var(--green-light); }
+
+  .prayer-controls {
+    display: flex; flex-direction:column; gap:4px;
+  }
+  .ctrl-btn {
+    width:28px; height:28px;
+    border-radius:6px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--cream-dim);
+    font-size: 1rem;
+    cursor: pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition: all 0.2s;
+    line-height:1;
+  }
+  .ctrl-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .ctrl-btn.plus:hover { background: rgba(201,168,76,0.1); }
+  .ctrl-btn.minus:hover { background: rgba(201,168,76,0.05); }
+
+  /* Total row */
+  .total-bar {
+    background: var(--surface2);
+    border: 1px solid var(--border-bright);
+    border-radius: 12px;
+    padding: 16px 20px;
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom: 40px;
+    animation: fadeUp 0.8s ease 0.3s both;
+  }
+  .total-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+  }
+  .total-value {
+    font-size: 1.5rem;
+    color: var(--gold-light);
+    font-weight: 300;
+  }
+  .total-value span { font-size: 0.85rem; color: var(--cream-dim); margin-left: 4px; }
+
+  /* Tasbih */
+  .tasbih-section {
+    animation: fadeUp 0.8s ease 0.4s both;
+  }
+  .tasbih-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 24px;
+    text-align: center;
+    position: relative;
+    overflow:hidden;
+  }
+  .tasbih-card::before {
+    content:'';
+    position:absolute;
+    top:-60px; left:50%; transform:translateX(-50%);
+    width:200px; height:200px;
+    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+    pointer-events:none;
+  }
+
+  .tasbih-phrase {
+    font-family: 'Amiri', serif;
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    color: var(--gold-light);
+    margin-bottom: 4px;
+    text-shadow: 0 0 20px rgba(201,168,76,0.3);
+  }
+  .tasbih-translation {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--cream-dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 28px;
+  }
+
+  .tasbih-counter-display {
+    font-size: clamp(4rem, 12vw, 6rem);
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1;
+    margin-bottom: 8px;
+    font-variant-numeric: tabular-nums;
+    transition: transform 0.1s ease;
+  }
+  .tasbih-counter-display.pulse {
+    transform: scale(1.05);
+  }
+
+  .tasbih-set {
+    font-size: 0.8rem;
+    color: var(--cream-dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 28px;
+  }
+  .tasbih-set strong { color: var(--gold); }
+
+  .tasbih-btn {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    background: radial-gradient(circle at 40% 35%, rgba(201,168,76,0.2), rgba(201,168,76,0.05));
+    color: var(--gold-light);
+    font-size: 2rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: 0 0 20px rgba(201,168,76,0.1), inset 0 1px 0 rgba(255,255,255,0.05);
+    display:inline-flex; align-items:center; justify-content:center;
+    margin-bottom: 24px;
+    user-select:none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .tasbih-btn:hover {
+    background: radial-gradient(circle at 40% 35%, rgba(201,168,76,0.35), rgba(201,168,76,0.1));
+    box-shadow: 0 0 40px rgba(201,168,76,0.25);
+    transform: scale(1.03);
+  }
+  .tasbih-btn:active {
+    transform: scale(0.96);
+    box-shadow: 0 0 15px rgba(201,168,76,0.15);
+  }
+
+  .tasbih-phrase-selector {
+    display:flex; gap:8px; justify-content:center; flex-wrap:wrap;
+    margin-bottom: 20px;
+  }
+  .phrase-btn {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--cream-dim);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .phrase-btn:hover { border-color: var(--gold-dim); color: var(--cream); }
+  .phrase-btn.active { border-color: var(--gold); color: var(--gold-light); background: rgba(201,168,76,0.08); }
+
+  .tasbih-controls {
+    display:flex; gap:12px; justify-content:center;
+  }
+  .small-btn {
+    padding: 8px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--cream-dim);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .small-btn:hover { border-color: var(--border-bright); color: var(--cream); }
+
+  /* Dua section */
+  .dua-section {
+    margin-top: 40px;
+    animation: fadeUp 0.8s ease 0.5s both;
+  }
+  .dua-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    text-align:center;
+  }
+  .dua-arabic {
+    font-family: 'Amiri', serif;
+    font-size: 1.5rem;
+    color: var(--gold-light);
+    line-height: 1.8;
+    margin-bottom: 8px;
+    direction: rtl;
+  }
+  .dua-transliteration {
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--cream-dim);
+    margin-bottom: 8px;
+  }
+  .dua-translation {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  /* Reset btn */
+  .reset-section {
+    text-align:center;
+    margin-top: 32px;
+    animation: fadeUp 0.8s ease 0.6s both;
+  }
+  .reset-btn {
+    padding: 10px 28px;
+    border-radius: 8px;
+    border: 1px solid rgba(201,168,76,0.2);
+    background: transparent;
+    color: var(--text-dim);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .reset-btn:hover { border-color: var(--border-bright); color: var(--cream-dim); }
+
+  /* Animations */
+  @keyframes fadeDown {
+    from { opacity:0; transform:translateY(-20px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(20px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  /* Confetti ping on complete */
+  @keyframes ping {
+    0%   { transform: scale(1); opacity:1; }
+    100% { transform: scale(1.8); opacity:0; }
+  }
+  .ping {
+    position:absolute; inset:0; border-radius:12px;
+    border: 2px solid var(--green-light);
+    animation: ping 0.5s ease-out both;
+    pointer-events:none;
+  }
+
+  @media(max-width:480px) {
+    .prayers-grid { grid-template-columns:1fr; }
+    .prayers-grid .fajr-card { grid-column: span 1; }
+    .moon { width:50px; height:50px; top:20px; right:20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stars"></div>
+<div class="moon"></div>
+
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <div class="arabic-title">ليلة القدر</div>
+    <div class="english-title">Laylat al-Qadr</div>
+    <div class="divider"></div>
+    <p class="hadith">"Better than a thousand months" — Seek it in the last ten nights of Ramadan</p>
+  </header>
+
+  <!-- Prayers -->
+  <div class="section-title">Daily Prayers</div>
+
+  <div class="prayers-grid" id="prayersGrid">
+    <!-- rendered by JS -->
+  </div>
+
+  <div class="total-bar">
+    <div class="total-label">Total Rakaat Today</div>
+    <div class="total-value" id="totalCount">0 <span>rakaat</span></div>
+  </div>
+
+  <!-- Tasbih -->
+  <div class="tasbih-section">
+    <div class="section-title">Tasbih Counter</div>
+    <div class="tasbih-card">
+
+      <div class="tasbih-phrase" id="tasbihPhrase">سُبْحَانَ اللّٰهِ</div>
+      <div class="tasbih-translation" id="tasbihTranslation">Glory be to Allah</div>
+
+      <div class="tasbih-counter-display" id="tasbihCount">0</div>
+      <div class="tasbih-set">Set <strong id="setNum">1</strong> · <strong id="totalTasbih">0</strong> total</div>
+
+      <button class="tasbih-btn" id="tasbihBtn" onclick="incrementTasbih()">☽</button>
+
+      <div class="tasbih-phrase-selector" id="phraseSelector"></div>
+
+      <div class="tasbih-controls">
+        <button class="small-btn" onclick="resetSet()">Reset Set</button>
+        <button class="small-btn" onclick="resetTasbih()">Reset All</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dua -->
+  <div class="dua-section">
+    <div class="section-title">Dua of Laylat al-Qadr</div>
+    <div class="dua-card">
+      <div class="dua-arabic">اللّٰهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي</div>
+      <div class="dua-transliteration">Allahumma innaka 'afuwwun tuhibbul 'afwa fa'fu 'anni</div>
+      <div class="dua-translation">"O Allah, You are Pardoning, You love to pardon, so pardon me."</div>
+    </div>
+  </div>
+
+  <!-- Reset -->
+  <div class="reset-section">
+    <button class="reset-btn" onclick="resetAll()">Reset Everything</button>
+  </div>
+
+</div>
+
+<script>
+const PRAYERS = [
+  { id:'fajr',   nameAr:'الفجر',   nameEn:'Fajr',    icon:'🌙', rakaat:2,  cssClass:'fajr-card' },
+  { id:'dhuhr',  nameAr:'الظهر',   nameEn:'Dhuhr',   icon:'☀️', rakaat:4 },
+  { id:'asr',    nameAr:'العصر',   nameEn:'Asr',     icon:'🌤', rakaat:4 },
+  { id:'maghrib',nameAr:'المغرب',  nameEn:'Maghrib', icon:'🌇', rakaat:3 },
+  { id:'isha',   nameAr:'العشاء',  nameEn:'Isha',    icon:'🌃', rakaat:4 },
+];
+
+const PHRASES = [
+  { ar:'سُبْحَانَ اللّٰهِ',     en:'Glory be to Allah',          target:33 },
+  { ar:'الحَمْدُ لِلّٰهِ',      en:'All praise is due to Allah', target:33 },
+  { ar:'اللّٰهُ أَكْبَر',       en:'Allah is the Greatest',      target:34 },
+  { ar:'لَا إِلٰهَ إِلَّا اللّٰه', en:'There is no god but Allah', target:100 },
+];
+
+// State
+let prayerCounts = {};
+let tasbihCount = 0;
+let tasbihTotal = 0;
+let tasbihSet = 1;
+let currentPhrase = 0;
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('laylat_qadr_state');
+    if (saved) {
+      const s = JSON.parse(saved);
+      prayerCounts = s.prayerCounts || {};
+      tasbihCount  = s.tasbihCount  || 0;
+      tasbihTotal  = s.tasbihTotal  || 0;
+      tasbihSet    = s.tasbihSet    || 1;
+      currentPhrase = s.currentPhrase || 0;
+    }
+  } catch(e){}
+  PRAYERS.forEach(p => { if(!prayerCounts[p.id]) prayerCounts[p.id] = 0; });
+}
+
+function saveState() {
+  try {
+    localStorage.setItem('laylat_qadr_state', JSON.stringify({
+      prayerCounts, tasbihCount, tasbihTotal, tasbihSet, currentPhrase
+    }));
+  } catch(e){}
+}
+
+// Prayers
+function renderPrayers() {
+  const grid = document.getElementById('prayersGrid');
+  grid.innerHTML = '';
+  PRAYERS.forEach(p => {
+    const count = prayerCounts[p.id] || 0;
+    const done  = count >= p.rakaat;
+    const div   = document.createElement('div');
+    div.className = `prayer-card ${p.cssClass||''} ${done?'completed':''}`;
+    div.id = `card-${p.id}`;
+    div.innerHTML = `
+      <div class="prayer-icon">${p.icon}</div>
+      <div class="prayer-info">
+        <div class="prayer-name-ar">${p.nameAr}</div>
+        <div class="prayer-name-en">${p.nameEn} · ${p.rakaat} rakaat</div>
+      </div>
+      <div class="prayer-count-display" id="cnt-${p.id}">${count}</div>
+      <div class="prayer-controls">
+        <button class="ctrl-btn plus"  onclick="adjustPrayer('${p.id}',1,event)">+</button>
+        <button class="ctrl-btn minus" onclick="adjustPrayer('${p.id}',-1,event)">−</button>
+      </div>
+    `;
+    grid.appendChild(div);
+  });
+  updateTotal();
+}
+
+function adjustPrayer(id, delta, e) {
+  e.stopPropagation();
+  const prayer = PRAYERS.find(p=>p.id===id);
+  prayerCounts[id] = Math.max(0, (prayerCounts[id]||0) + delta);
+  const card = document.getElementById(`card-${id}`);
+  const cnt  = document.getElementById(`cnt-${id}`);
+  cnt.textContent = prayerCounts[id];
+  const done = prayerCounts[id] >= prayer.rakaat;
+  card.classList.toggle('completed', done);
+  if(done && delta > 0) addPing(card);
+  updateTotal();
+  saveState();
+}
+
+function addPing(card) {
+  const ping = document.createElement('div');
+  ping.className = 'ping';
+  card.appendChild(ping);
+  setTimeout(()=>ping.remove(), 600);
+}
+
+function updateTotal() {
+  const total = Object.values(prayerCounts).reduce((a,b)=>a+b,0);
+  document.getElementById('totalCount').innerHTML = `${total} <span>rakaat</span>`;
+}
+
+// Tasbih
+function renderPhraseSelector() {
+  const sel = document.getElementById('phraseSelector');
+  sel.innerHTML = '';
+  PHRASES.forEach((ph,i) => {
+    const btn = document.createElement('button');
+    btn.className = `phrase-btn ${i===currentPhrase?'active':''}`;
+    btn.textContent = ph.en;
+    btn.onclick = () => selectPhrase(i);
+    sel.appendChild(btn);
+  });
+}
+
+function selectPhrase(i) {
+  currentPhrase = i;
+  tasbihCount = 0;
+  tasbihSet = 1;
+  renderPhraseSelector();
+  updateTasbihDisplay();
+  saveState();
+}
+
+function incrementTasbih() {
+  const ph = PHRASES[currentPhrase];
+  tasbihCount++;
+  tasbihTotal++;
+
+  if(tasbihCount >= ph.target) {
+    tasbihCount = 0;
+    tasbihSet++;
+  }
+
+  updateTasbihDisplay();
+  saveState();
+
+  // pulse
+  const el = document.getElementById('tasbihCount');
+  el.classList.remove('pulse');
+  void el.offsetWidth;
+  el.classList.add('pulse');
+  setTimeout(()=>el.classList.remove('pulse'), 150);
+}
+
+function updateTasbihDisplay() {
+  const ph = PHRASES[currentPhrase];
+  document.getElementById('tasbihPhrase').textContent      = ph.ar;
+  document.getElementById('tasbihTranslation').textContent = ph.en;
+  document.getElementById('tasbihCount').textContent       = tasbihCount;
+  document.getElementById('setNum').textContent            = tasbihSet;
+  document.getElementById('totalTasbih').textContent       = tasbihTotal;
+}
+
+function resetSet() {
+  tasbihCount = 0;
+  updateTasbihDisplay();
+  saveState();
+}
+
+function resetTasbih() {
+  tasbihCount = 0;
+  tasbihTotal = 0;
+  tasbihSet   = 1;
+  updateTasbihDisplay();
+  saveState();
+}
+
+function resetAll() {
+  if(!confirm('Reset all prayer counts and tasbih?')) return;
+  PRAYERS.forEach(p=>prayerCounts[p.id]=0);
+  tasbihCount=0; tasbihTotal=0; tasbihSet=1; currentPhrase=0;
+  renderPrayers();
+  renderPhraseSelector();
+  updateTasbihDisplay();
+  saveState();
+}
+
+// Init
+loadState();
+renderPrayers();
+renderPhraseSelector();
+updateTasbihDisplay();
+</script>
+</body>
+</html>
